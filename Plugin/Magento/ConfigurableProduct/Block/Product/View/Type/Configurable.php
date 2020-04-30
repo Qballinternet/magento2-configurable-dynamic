@@ -58,6 +58,12 @@ class Configurable
                     ['sku', 'description'])) {
                 $code = $attribute->getAttributeCode();
                 $value = (string)$attribute->getFrontend()->getValue($simpleProduct);
+
+                if ($code === 'sku') {
+                    $parts = preg_split( "/[\>|\|\;|\]]/", $value);
+                    $value = array_pop($parts);
+                }
+
                 $jsonResult['dynamic'][$code][$simpleProduct->getId()] = [
                     'value' => $value
                 ];
