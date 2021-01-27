@@ -51,10 +51,14 @@ class ConfigurableDynamicHelper
         /** @var AbstractProduct $originalBlock */
         $originalBlock = $this->layout->getBlock($blockId);
 
-        $block = $this->layout->createBlock($blockClass, '', ['data' => $originalBlock->getData()]);
-        $block->setTemplate($originalBlock->getTemplate())
-            ->setProduct($simpleProduct);
+        if (is_object($originalBlock)) {
+            $block = $this->layout->createBlock($blockClass, '', ['data' => $originalBlock->getData()]);
+            $block->setTemplate($originalBlock->getTemplate())
+                ->setProduct($simpleProduct);
 
-        return $block->toHtml();
+            return $block->toHtml();
+        }
+        
+        return $originalBlock;
     }
 }
